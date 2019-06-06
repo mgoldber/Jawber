@@ -1,22 +1,14 @@
-import React from 'react';
-import FormDialog from '../JobForm';
+import React, { useState, useEffect } from 'react';
+import JobForm from '../JobForm';
+import JobCard from '../JobCard';
+import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import { 
-    Button,
-    TextField,
     Container,
     Typography,
     CssBaseline,
-    Card,
-    CardMedia,
-    CardContent,
-    CardActions,
-    Grid, 
-    Dialog, 
-    DialogActions, 
-    DialogContent, 
-    DialogContentText, 
-    DialogTitle } 
+    Grid
+} 
 from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
@@ -24,94 +16,50 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(8, 0, 6),
   },
-  heroButtons: {
-    marginTop: theme.spacing(4),
-  },
   cardGrid: {
     paddingTop: theme.spacing(8),
     paddingBottom: theme.spacing(8),
   },
-  card: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  cardMedia: {
-    paddingTop: '56.25%', // 16:9
-  },
-  cardContent: {
-    flexGrow: 1,
-  },
-  footer: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(6),
-  },
 }));
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-export default function Album() {
+export default function Jobs() {
   const classes = useStyles();
+
+  const [jobs, setJobs] = useState([]);
+
+  useEffect(() => {
+    const jobData = axios.get('http://localhost:3000/api/jobs');
+    jobData.then(results => {
+      console.log(results.data.data);
+      setJobs(results.data.data)
+    });
+  }, []);
 
   return (
     <React.Fragment>
       <CssBaseline />
       <main>
-        {/* Hero unit */}
         <div className={classes.heroContent}>
           <Container maxWidth="sm">
             <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-              JOB HUNTERS
+              JOBBY
             </Typography>
             <Typography variant="h5" align="center" color="textSecondary" paragraph>
                 Jobs, jobs, we love jobs. Can't wait to apply to all the jobs, and land a job.
             </Typography>
-            <FormDialog />
+            <JobForm />
           </Container>
         </div>
         <Container className={classes.cardGrid} maxWidth="md">
-          {/* End hero unit */}
           <Grid container spacing={4}>
-            {cards.map(card => (
-              <Grid item key={card} xs={12} sm={6} md={4}>
-                <Card className={classes.card}>
-                  <CardMedia
-                    className={classes.cardMedia}
-                    image="https://source.unsplash.com/random"
-                    title="Image title"
-                  />
-                  <CardContent className={classes.cardContent}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      Heading
-                    </Typography>
-                    <Typography>
-                      This is a media card. You can use this section to describe the content.
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small" color="primary">
-                      View
-                    </Button>
-                    <Button size="small" color="primary">
-                      Edit
-                    </Button>
-                  </CardActions>
-                </Card>
+            {jobs && jobs.map(job => (
+              <Grid item key={job._id} xs={12} sm={6} md={4}>
+                <JobCard title={job.title} company={job.company} link={job.link}/>
               </Grid>
             ))}
           </Grid>
         </Container>
       </main>
-      {/* Footer */}
-      <footer className={classes.footer}>
-        <Typography variant="h6" align="center" gutterBottom>
-          La la la Job Job Job
-        </Typography>
-        <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-          We can do it!
-        </Typography>
-      </footer>
-      {/* End footer */}
     </React.Fragment>
   );
 }

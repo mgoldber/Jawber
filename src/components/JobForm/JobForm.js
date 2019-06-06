@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import axios from 'axios';
 import { 
     Button,
     TextField,
@@ -12,10 +13,6 @@ import {
 from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
-  heroContent: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(8, 0, 6),
-  },
   heroButtons: {
     marginTop: theme.spacing(4),
   },
@@ -24,14 +21,27 @@ const useStyles = makeStyles(theme => ({
 function FormDialog() {
     const classes = useStyles();
 
-    const [open, setOpen] = React.useState(false);
-  
+    const [open, setOpen] = useState(false);
+    const [jobTitle, setJobTitle] = useState(null);
+    const [jobCompany, setJobCompany] = useState(null);
+    const [jobLink, setJobLink] = useState(null);
+    
     function handleClickOpen() {
       setOpen(true);
     }
   
     function handleClose() {
       setOpen(false);
+    }
+
+    function handleAddJob() {
+      const jobData = axios.post('http://localhost:3000/api/jobs/add', {
+        title: jobTitle,
+        company: jobCompany,
+        link: jobLink
+      });
+      console.log(jobData)
+      jobData.then(results => setOpen(false));
     }
   
     return (
@@ -58,6 +68,7 @@ function FormDialog() {
               id="title"
               label="Job Title"
               type="name"
+              onChange={(e) => setJobTitle(e.target.value)}
               fullWidth
             />
             <TextField
@@ -65,6 +76,7 @@ function FormDialog() {
               id="company"
               label="Company"
               type="name"
+              onChange={(e) => setJobCompany(e.target.value)}
               fullWidth
             />
             <TextField
@@ -72,6 +84,7 @@ function FormDialog() {
               id="link"
               label="Link"
               type="name"
+              onChange={(e) => setJobLink(e.target.value)}
               fullWidth
             />
           </DialogContent>
@@ -79,7 +92,7 @@ function FormDialog() {
             <Button onClick={handleClose} color="primary">
               Cancel
             </Button>
-            <Button onClick={handleClose} color="primary">
+            <Button onClick={handleAddJob} color="primary">
               Add
             </Button>
           </DialogActions>
