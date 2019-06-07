@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function FormDialog() {
+function FormDialog({ addJob }) {
     const classes = useStyles();
 
     const [open, setOpen] = useState(false);
@@ -41,7 +41,11 @@ function FormDialog() {
         link: jobLink
       });
       console.log(jobData)
-      jobData.then(results => setOpen(false));
+      jobData.then(results => {
+        console.log(results);
+        addJob(results.data.data[0].title)
+        setOpen(false)
+      });
     }
   
     return (
