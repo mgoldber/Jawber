@@ -45,8 +45,8 @@ export default function Jobs() {
 
   const [jobs, setJobs] = useState([]);
 
-  const addJob = title => {
-    const newJob = [...jobs, { title }];
+  const addJob = (title, company, link) => {
+    const newJob = [...jobs, { title, company, link }];
     setJobs(newJob);
   }
 
@@ -70,7 +70,7 @@ export default function Jobs() {
               JAWBER
             </Typography>
             <Typography className={classes.heroSub} variant="h5" align="center" color="textSecondary" paragraph>
-                 THE HUNT BEGINS
+              THE HUNT BEGINS
             </Typography>
             <JobForm addJob={addJob}/>
           </Container>

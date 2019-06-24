@@ -40,10 +40,8 @@ function FormDialog({ addJob }) {
         company: jobCompany,
         link: jobLink
       });
-      console.log(jobData)
       jobData.then(results => {
-        console.log(results);
-        addJob(results.data.data[0].title)
+        addJob(results.data.data[0].title, results.data.data[0].company, results.data.data[0].link)
         setOpen(false)
       });
     }
