@@ -1,20 +1,29 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
-import { 
+import {
     Button,
     TextField,
-    Grid, 
-    Dialog, 
-    DialogActions, 
-    DialogContent, 
-    DialogContentText, 
-    DialogTitle } 
+    Grid,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle }
 from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   heroButtons: {
-    marginTop: theme.spacing(4),
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(5)
+  },
+  jobButton: {
+    background: '#376999',
+    borderRadius: '0',
+    color: 'white',
+    borderColor: 'transparent',
+    fontWeight: 'bold',
+    textTransform: 'lowercase'
   },
 }));
 
@@ -25,11 +34,11 @@ function FormDialog({ addJob }) {
     const [jobTitle, setJobTitle] = useState(null);
     const [jobCompany, setJobCompany] = useState(null);
     const [jobLink, setJobLink] = useState(null);
-    
+
     function handleClickOpen() {
       setOpen(true);
     }
-  
+
     function handleClose() {
       setOpen(false);
     }
@@ -45,13 +54,13 @@ function FormDialog({ addJob }) {
         setOpen(false)
       });
     }
-  
+
     return (
       <div>
         <div className={classes.heroButtons}>
             <Grid container spacing={2} justify="center">
             <Grid item>
-                <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+                <Button className={classes.jobButton}variant="outlined" color="primary" onClick={handleClickOpen}>
                     Add Job
                 </Button>
             </Grid>
@@ -102,5 +111,5 @@ function FormDialog({ addJob }) {
       </div>
     );
   }
-  
+
   export default FormDialog;

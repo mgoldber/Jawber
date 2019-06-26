@@ -2,40 +2,46 @@ import React, { useState, useEffect } from 'react';
 import JobForm from '../JobForm';
 import JobCard from '../JobCard';
 import axios from 'axios';
-import shark from '../../assets/shark-jaws.png';
+import shark from '../../assets/logo.png';
 import { makeStyles } from '@material-ui/core/styles';
-import { 
+import {
     Container,
     Typography,
     CssBaseline,
     Grid
-} 
+}
 from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   heroText: {
-    color: 'white',
-    mixBlendMode: 'difference',
-    fontWeight: 'bold',
-    fontSize: '60px'
+    clip: 'rect(0 0 0 0)',
+    position: 'absolute'
   },
   heroSub: {
+    position: 'relative',
+    zIndex: '2',
+    top: '270px',
+    color: 'white',
+    fontSize: '29px',
+    letterSpacing: '1.5',
+    fontWeight: 'bold'
   },
   heroContent: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(8, 0, 6),
+    padding: theme.spacing(7, 0, 24),
   },
   cardGrid: {
     paddingTop: theme.spacing(8),
     paddingBottom: theme.spacing(8),
+    backgroundColor: '#6999D2',
   },
   shark: {
     display: 'flex',
     justifyContent: 'center',
+    zIndex: '1',
     '& img': {
       position: 'absolute',
-      top: '0',
-      width: '300px',
+      top: '40px',
+      width: '230px',
     }
   },
 }));
@@ -72,10 +78,10 @@ export default function Jobs() {
             <Typography className={classes.heroSub} variant="h5" align="center" color="textSecondary" paragraph>
               THE HUNT BEGINS
             </Typography>
-            <JobForm addJob={addJob}/>
           </Container>
         </div>
         <Container className={classes.cardGrid} maxWidth="md">
+          <JobForm addJob={addJob} />
           <Grid container spacing={4}>
             {jobs && jobs.map(job => (
               <Grid item key={job._id} xs={12} sm={6} md={4}>
